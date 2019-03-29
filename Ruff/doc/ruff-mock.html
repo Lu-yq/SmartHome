@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ruff Mock Ruff 1.11.9 Manual &amp; Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/sh.css">
+  <link rel="canonical" href="https://ruff.io/api/ruff-mock.html">
+</head>
+<body class="alt apidoc" id="api-section-ruff-mock">
+  <div id="content" class="clearfix">
+    <div id="column1" data-id="ruff-mock" class="interior">
+      <header>
+        <h1>Ruff 1.11.9 Documentation</h1>
+        <hr>
+      </header>
+
+      <div id="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+<li><a href="#ruff_mock_ruff_mock">Ruff Mock</a><ul>
+<li><a href="#ruff_mock_github">GitHub</a></li>
+<li><a href="#ruff_mock_usage">Usage</a></li>
+<li><a href="#ruff_mock_mocking">Mocking</a><ul>
+<li><a href="#ruff_mock_basic_usage">Basic Usage</a></li>
+<li><a href="#ruff_mock_arguments_matching">Arguments Matching</a></li>
+<li><a href="#ruff_mock_expectation_of_return_throw_and_then">Expectation of <code>return</code>, <code>throw</code> and <code>then</code></a></li>
+</ul>
+</li>
+<li><a href="#ruff_mock_spying">Spying</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+
+      <div id="apicontent">
+        <h1 id="ruff-mock-span-a-class-mark-href-ruff_mock_ruff_mock-id-ruff_mock_ruff_mock-a-span-">Ruff Mock<span><a class="mark" href="#ruff_mock_ruff_mock" id="ruff_mock_ruff_mock">#</a></span></h1>
+<p>Ruff Mock is the built-in mocking library for Ruff, it provides simple yet
+useful features including mocking and spying for object methods.</p>
+<h2 id="github-span-a-class-mark-href-ruff_mock_github-id-ruff_mock_github-a-span-">GitHub<span><a class="mark" href="#ruff_mock_github" id="ruff_mock_github">#</a></span></h2>
+<p><a href="https://github.com/ruffjs/ruff-mock">https://github.com/ruffjs/ruff-mock</a></p>
+<h2 id="usage-span-a-class-mark-href-ruff_mock_usage-id-ruff_mock_usage-a-span-">Usage<span><a class="mark" href="#ruff_mock_usage" id="ruff_mock_usage">#</a></span></h2>
+<pre><code class="lang-javascript">var mock = require(&#39;ruff-mock&#39;);
+var when = mock.when;
+
+var foo = mock();
+
+when(foo).bar(&#39;hello&#39;).return(&#39;world&#39;);
+
+foo.bar(&#39;hello&#39;); // &#39;world&#39;
+</code></pre>
+<h2 id="mocking-span-a-class-mark-href-ruff_mock_mocking-id-ruff_mock_mocking-a-span-">Mocking<span><a class="mark" href="#ruff_mock_mocking" id="ruff_mock_mocking">#</a></span></h2>
+<h3 id="basic-usage-span-a-class-mark-href-ruff_mock_basic_usage-id-ruff_mock_basic_usage-a-span-">Basic Usage<span><a class="mark" href="#ruff_mock_basic_usage" id="ruff_mock_basic_usage">#</a></span></h3>
+<pre><code class="lang-javascript">var mock = require(&#39;ruff-mock&#39;);
+
+var when = mock.when;
+var whenever = mock.whenever;
+
+var mocked = mock();
+
+when(mocked).get(&#39;foo&#39;).return(&#39;bar&#39;);
+when(mocked).get(&#39;foo&#39;).return(&#39;biu&#39;);
+
+mocked.get(&#39;foo&#39;); // &#39;bar&#39;
+mocked.get(&#39;foo&#39;); // &#39;biu&#39;
+
+whenever(mocked).get(&#39;ha&#39;).return(&#39;yo&#39;);
+
+mocked.get(&#39;ha&#39;); // &#39;yo&#39;
+mocked.get(&#39;ha&#39;); // &#39;yo&#39;
+</code></pre>
+<h3 id="arguments-matching-span-a-class-mark-href-ruff_mock_arguments_matching-id-ruff_mock_arguments_matching-a-span-">Arguments Matching<span><a class="mark" href="#ruff_mock_arguments_matching" id="ruff_mock_arguments_matching">#</a></span></h3>
+<pre><code class="lang-javascript">var assert = require(&#39;assert&#39;);
+var mock = require(&#39;ruff-mock&#39;);
+
+var any = mock.any;
+var when = mock.when;
+
+var mocked = mock();
+
+when(mocked)
+    .handleCallback(String, Function)
+    .then(function (name, callback) {
+        assert.equal(name, &#39;foo&#39;);
+        callback(undefined, &#39;bar&#39;);
+    });
+
+mocked.handleCallback(&#39;foo&#39;, function (error, result) {
+    assert.ifError(error);
+    assert.equal(result, &#39;bar&#39;);
+});
+
+when(mocked).increase(any).then(function (value) {
+    return value + 1;
+});
+
+mocked.increase(123); // 124
+</code></pre>
+<h3 id="expectation-of-return-throw-and-then-span-a-class-mark-href-ruff_mock_expectation_of_return_throw_and_then-id-ruff_mock_expectation_of_return_throw_and_then-a-span-">Expectation of <code>return</code>, <code>throw</code> and <code>then</code><span><a class="mark" href="#ruff_mock_expectation_of_return_throw_and_then" id="ruff_mock_expectation_of_return_throw_and_then">#</a></span></h3>
+<pre><code class="lang-javascript">var mock = require(&#39;ruff-mock&#39;);
+
+var when = mock.when;
+
+var mocked = mock();
+
+when(mocked).foo().return(&#39;yo&#39;);
+when(mocked).bar().throw(new Error());
+when(mocked).pia().then(function () {
+    return &#39;ha&#39;;
+});
+
+mocked.foo(); // &#39;yo&#39;
+mocked.bar(); // throw error
+mocked.pia(); // &#39;ha&#39;
+</code></pre>
+<h2 id="spying-span-a-class-mark-href-ruff_mock_spying-id-ruff_mock_spying-a-span-">Spying<span><a class="mark" href="#ruff_mock_spying" id="ruff_mock_spying">#</a></span></h2>
+<pre><code class="lang-javascript">var mock = require(&#39;ruff-mock&#39;);
+
+var expect = mock.expect;
+var spy = mock.spy;
+var twice = mock.twice;
+var verify = mock.verify;
+
+var spied = spy({
+    foo: function (a, b) {
+        return a + b;
+    },
+    bar: function () { }
+});
+
+spied.foo(123, 543); // 666
+spied.bar();
+spied.bar();
+
+verify(spied).foo(123, 543);
+verify(spied, twice()).bar();
+</code></pre>
+<p>Ruff mock provides some default verification options:</p>
+<ul>
+<li><code>once</code>: make sure the target function has been invoked only once.</li>
+<li><code>twice</code>: make sure the target function has been invoked only twice.</li>
+<li><code>times</code>: you can specify how many times the target function has been invoked.</li>
+<li><code>atLeast</code>: how many times the target function has been invoked at least.</li>
+<li><code>atMost</code>: how many times the target function has been invoked at most.</li>
+<li><code>never</code>: making sure interaction(s) never happened.</li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+  </div>
+
+  <script src="assets/sh_main.js"></script>
+  <script src="assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+

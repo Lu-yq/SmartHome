@@ -1,0 +1,1 @@
+This application will turn on the red LED on the Ruff development board while pressing the external button. For details, please refer to https://ruff.io/zh-cn/docs/getting-started.html. 

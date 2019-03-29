@@ -1,0 +1,15 @@
+{
+    "name": "lcd-ruff",
+    "version": "0.1.0",
+    "description": "",
+    "author": "lmn",
+    "main": "src/index.js",
+    "ruff": {
+        "dependencies": {
+            "lcd1602-pcf8574a-hd44780": "^0.2.6",
+            "dht11": "^0.3.6",
+            "lcd1602-pcf8574-hd44780": "^0.1.2"
+        },
+        "version": 1
+    }
+}

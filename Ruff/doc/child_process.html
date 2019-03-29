@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Child Process Ruff 1.11.9 Manual &amp; Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/sh.css">
+  <link rel="canonical" href="https://ruff.io/api/child_process.html">
+</head>
+<body class="alt apidoc" id="api-section-child_process">
+  <div id="content" class="clearfix">
+    <div id="column1" data-id="child_process" class="interior">
+      <header>
+        <h1>Ruff 1.11.9 Documentation</h1>
+        <hr>
+      </header>
+
+      <div id="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+<li><a href="#child_process_child_process">Child Process</a><ul>
+<li><a href="#child_process_child_process_spawn_command_args_options">child_process.spawn(command[, args][, options])</a><ul>
+<li><a href="#child_process_options_stdio">options.stdio</a></li>
+</ul>
+</li>
+<li><a href="#child_process_class_childprocess">Class: ChildProcess</a><ul>
+<li><a href="#child_process_event_error">Event: &#39;error&#39;</a></li>
+<li><a href="#child_process_event_exit">Event: &#39;exit&#39;</a></li>
+<li><a href="#child_process_child_kill_signal">child.kill([signal])</a></li>
+<li><a href="#child_process_child_stderr">child.stderr</a></li>
+<li><a href="#child_process_child_stdin">child.stdin</a></li>
+<li><a href="#child_process_child_stdout">child.stdout</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+
+      <div id="apicontent">
+        <h1 id="child-process-span-a-class-mark-href-child_process_child_process-id-child_process_child_process-a-span-">Child Process<span><a class="mark" href="#child_process_child_process" id="child_process_child_process">#</a></span></h1>
+<p>The <code>child_process</code> module provides the ability to spawn child processes</p>
+<p>By default, pipes for <code>stdin</code>, <code>stdout</code> and <code>stderr</code> are established between
+the parent process and the spawned child.</p>
+<p>The [<code>child_process.spawn()</code>][] method spawns the child process asynchronously,
+without blocking the event loop.</p>
+<h2 id="child_process-spawn-command-args-options-span-a-class-mark-href-child_process_child_process_spawn_command_args_options-id-child_process_child_process_spawn_command_args_options-a-span-">child_process.spawn(command[, args][, options])<span><a class="mark" href="#child_process_child_process_spawn_command_args_options" id="child_process_child_process_spawn_command_args_options">#</a></span></h2>
+<p><span class="api-platform">Ruff available: v1.6.0</span></p>
+<ul>
+<li><code>command</code> {String} The command to run</li>
+<li><code>args</code> {Array} List of string arguments</li>
+<li><code>options</code> {Object}<ul>
+<li><code>cwd</code> {String} Current working directory of the child process</li>
+<li><code>env</code> {Object} Environment key-value pairs</li>
+<li><code>argv0</code> {String} Explicitly set the value of <code>argv[0]</code> sent to the child
+process. This will be set to <code>command</code> if not specified.</li>
+<li><code>stdio</code> {Array|String} Child&#39;s stdio configuration. (See
+[<code>options.stdio</code>][<code>stdio</code>])</li>
+<li><code>detached</code> {Boolean} Prepare child to run independently of its parent
+process. Specific behavior depends on the platform, see
+[<code>options.detached</code>][])</li>
+<li><code>uid</code> {Number} Sets the user identity of the process. (See setuid(2).)</li>
+<li><code>gid</code> {Number} Sets the group identity of the process. (See setgid(2).)</li>
+</ul>
+</li>
+<li>return: {ChildProcess}</li>
+</ul>
+<p>The <code>child_process.spawn()</code> method spawns a new process using the given
+<code>command</code>, with command line arguments in <code>args</code>. If omitted, <code>args</code> defaults
+to an empty array.</p>
+<p>A third argument may be used to specify additional options, with these defaults:</p>
+<pre><code class="lang-js">{
+  cwd: undefined,
+  env: process.env
+}
+</code></pre>
+<p>Use <code>cwd</code> to specify the working directory from which the process is spawned.
+If not given, the default is to inherit the current working directory.</p>
+<p>Use <code>env</code> to specify environment variables that will be visible to the new
+process, the default is [<code>process.env</code>][].</p>
+<p>Example of running <code>ls -lh /</code>, capturing <code>stdout</code>, <code>stderr</code>, and the
+exit code:</p>
+<pre><code class="lang-js">const spawn = require(&#39;child_process&#39;).spawn;
+const ls = spawn(&#39;ls&#39;, [&#39;-lh&#39;, &#39;/&#39;]);
+
+ls.stdout.on(&#39;data&#39;, function (data) {
+  console.log(&#39;stdout:&#39;, data);
+});
+
+ls.stderr.on(&#39;data&#39;, function (data) {
+  console.log(&#39;stderr:&#39;, data);
+});
+
+ls.on(&#39;exit&#39;, function (code) {
+  console.log(&#39;child process exited with code:&#39;, code);
+});
+</code></pre>
+<h3 id="options-stdio-span-a-class-mark-href-child_process_options_stdio-id-child_process_options_stdio-a-span-">options.stdio<span><a class="mark" href="#child_process_options_stdio" id="child_process_options_stdio">#</a></span></h3>
+<p>The <code>options.stdio</code> option is used to configure the pipes that are established
+between the parent and child process. By default, the child&#39;s stdin, stdout,
+and stderr are redirected to corresponding [<code>child.stdin</code>][], [<code>child.stdout</code>][], and
+[<code>child.stderr</code>][] streams on the [<code>ChildProcess</code>][] object. This is equivalent to
+setting the <code>options.stdio</code> equal to <code>[&#39;pipe&#39;, &#39;pipe&#39;, &#39;pipe&#39;]</code>.</p>
+<p>For convenience, <code>options.stdio</code> may be one of the following strings:</p>
+<ul>
+<li><code>&#39;pipe&#39;</code> - equivalent to <code>[&#39;pipe&#39;, &#39;pipe&#39;, &#39;pipe&#39;]</code> (the default)</li>
+<li><code>&#39;ignore&#39;</code> - equivalent to <code>[&#39;ignore&#39;, &#39;ignore&#39;, &#39;ignore&#39;]</code></li>
+<li><code>&#39;inherit&#39;</code> - equivalent to <code>[process.stdin, process.stdout, process.stderr]</code>
+ or <code>[0,1,2]</code></li>
+</ul>
+<p>Otherwise, the value of <code>options.stdio</code> is an array where each index corresponds
+to an fd in the child. The fds 0, 1, and 2 correspond to stdin, stdout,
+and stderr, respectively. Additional fds can be specified to create additional
+pipes between the parent and child. The value is one of the following:</p>
+<ol>
+<li><code>&#39;pipe&#39;</code> - Create a pipe between the child process and the parent process.
+The parent end of the pipe is exposed to the parent as a property on the
+<code>child_process</code> object as [<code>child.stdio[fd]</code>][<code>stdio</code>]. Pipes created for
+fds 0 - 2 are also available as [<code>child.stdin</code>][], [<code>child.stdout</code>][]
+and [<code>child.stderr</code>][], respectively.</li>
+<li><code>&#39;ignore&#39;</code> - Instructs Node.js to ignore the fd in the child. While Node.js
+will always open fds 0 - 2 for the processes it spawns, setting the fd to
+<code>&#39;ignore&#39;</code> will cause Node.js to open <code>/dev/null</code> and attach it to the
+child&#39;s fd.
+corresponds to the index in the <code>stdio</code> array. Note that the stream must
+have an underlying descriptor (file streams do not until the <code>&#39;open&#39;</code>
+event has occurred).</li>
+<li>Positive integer - The integer value is interpreted as a file descriptor
+that is is currently open in the parent process. It is shared with the child
+process, similar to how {Stream} objects can be shared.</li>
+<li><code>null</code>, <code>undefined</code> - Use default value. For stdio fds 0, 1 and 2 (in other
+words, stdin, stdout, and stderr) a pipe is created. For fd 3 and up, the
+default is <code>&#39;ignore&#39;</code>.</li>
+</ol>
+<h2 id="class-childprocess-span-a-class-mark-href-child_process_class_childprocess-id-child_process_class_childprocess-a-span-">Class: ChildProcess<span><a class="mark" href="#child_process_class_childprocess" id="child_process_class_childprocess">#</a></span></h2>
+<p>Instances of the <code>ChildProcess</code> class are [<code>EventEmitters</code>][<code>EventEmitter</code>] that represent
+spawned child processes.</p>
+<p>Instances of <code>ChildProcess</code> are not intended to be created directly. Rather,
+use the [<code>child_process.spawn()</code>][], [<code>child_process.exec()</code>][],
+[<code>child_process.execFile()</code>][], or [<code>child_process.fork()</code>][] methods to create
+instances of <code>ChildProcess</code>.</p>
+<h3 id="event-error-span-a-class-mark-href-child_process_event_error-id-child_process_event_error-a-span-">Event: &#39;error&#39;<span><a class="mark" href="#child_process_event_error" id="child_process_event_error">#</a></span></h3>
+<div class="signature"><ul>
+<li><code>err</code> <span class="type">Error</span> the error.</li>
+</div></ul>
+<p>The <code>&#39;error&#39;</code> event is emitted whenever:</p>
+<ol>
+<li>The process could not be spawned, or</li>
+<li>The process could not be killed, or</li>
+<li>Sending a message to the child process failed.</li>
+</ol>
+<p>Note that the <code>&#39;exit&#39;</code> event may or may not fire after an error has occurred.
+If you are listening to both the <code>&#39;exit&#39;</code> and <code>&#39;error&#39;</code> events, it is important
+to guard against accidentally invoking handler functions multiple times.</p>
+<h3 id="event-exit-span-a-class-mark-href-child_process_event_exit-id-child_process_event_exit-a-span-">Event: &#39;exit&#39;<span><a class="mark" href="#child_process_event_exit" id="child_process_event_exit">#</a></span></h3>
+<div class="signature"><ul>
+<li><code>code</code> <span class="type">Number</span> the exit code if the child exited on its own.</li>
+<li><code>signal</code> <span class="type">String</span> the signal by which the child process was terminated.</li>
+</div></ul>
+<p>The <code>&#39;exit&#39;</code> event is emitted after the child process ends. If the process
+exited, <code>code</code> is the final exit code of the process, otherwise <code>null</code>. If the
+process terminated due to receipt of a signal, <code>signal</code> is the string name of
+the signal, otherwise <code>null</code>. One of the two will always be non-null.</p>
+<h3 id="child-kill-signal-span-a-class-mark-href-child_process_child_kill_signal-id-child_process_child_kill_signal-a-span-">child.kill([signal])<span><a class="mark" href="#child_process_child_kill_signal" id="child_process_child_kill_signal">#</a></span></h3>
+<p><span class="api-platform">Ruff available: v1.6.0</span></p>
+<ul>
+<li><code>signal</code> {String}</li>
+</ul>
+<h3 id="child-stderr-span-a-class-mark-href-child_process_child_stderr-id-child_process_child_stderr-a-span-">child.stderr<span><a class="mark" href="#child_process_child_stderr" id="child_process_child_stderr">#</a></span></h3>
+<p><span class="api-platform">Ruff available: v1.6.0</span></p>
+<ul>
+<li>{Stream}</li>
+</ul>
+<p>A <code>Readable Stream</code> that represents the child process&#39;s <code>stderr</code>.</p>
+<h3 id="child-stdin-span-a-class-mark-href-child_process_child_stdin-id-child_process_child_stdin-a-span-">child.stdin<span><a class="mark" href="#child_process_child_stdin" id="child_process_child_stdin">#</a></span></h3>
+<p><span class="api-platform">Ruff available: v1.6.0</span></p>
+<ul>
+<li>{Stream}</li>
+</ul>
+<p>A <code>Writable Stream</code> that represents the child process&#39;s <code>stdin</code>.</p>
+<h3 id="child-stdout-span-a-class-mark-href-child_process_child_stdout-id-child_process_child_stdout-a-span-">child.stdout<span><a class="mark" href="#child_process_child_stdout" id="child_process_child_stdout">#</a></span></h3>
+<p><span class="api-platform">Ruff available: v1.6.0</span></p>
+<ul>
+<li>{Stream}</li>
+</ul>
+<p>A <code>Readable Stream</code> that represents the child process&#39;s <code>stdout</code>.</p>
+
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+  </div>
+
+  <script src="assets/sh_main.js"></script>
+  <script src="assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+

@@ -1,0 +1,22 @@
+{
+    "mapping": {
+        "GY-30/vcc": "ruff-mbd-v1/vdd-0",
+        "GY-30/gnd": "ruff-mbd-v1/gnd-0",
+        "GY-30/i2c": "ruff-mbd-v1/i2c-0",
+        "DHT11/vcc": "ruff-mbd-v1/vdd-1",
+        "DHT11/gnd": "ruff-mbd-v1/gnd-1",
+        "SOUND-01/vcc": "ruff-mbd-v1/vdd-2",
+        "SOUND-01/gnd": "ruff-mbd-v1/gnd-2",
+        "SOUND-01/gpio": "ruff-mbd-v1/gpio-11",
+        "MH-FMG/vcc": "ruff-mbd-v1/vdd-3",
+        "MH-FMG/gnd": "ruff-mbd-v1/gnd-3",
+        "MH-FMG/gpio": "ruff-mbd-v1/gpio-12",
+        "KY-016/gnd": "ruff-mbd-v1/gnd-4",
+        "KY-016/pwm-r": "ruff-mbd-v1/pwm-0",
+        "KY-016/pwm-g": "ruff-mbd-v1/pwm-1",
+        "KY-016/pwm-b": "ruff-mbd-v1/pwm-2",
+        "PN532/vcc": "ruff-mbd-v1/vdd-4",
+        "PN532/gnd": "ruff-mbd-v1/gnd-5",
+        "PN532/uart": "ruff-mbd-v1/uart-0"
+    }
+}

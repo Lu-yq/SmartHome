@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Process Ruff 1.11.9 Manual &amp; Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/sh.css">
+  <link rel="canonical" href="https://ruff.io/api/process.html">
+</head>
+<body class="alt apidoc" id="api-section-process">
+  <div id="content" class="clearfix">
+    <div id="column1" data-id="process" class="interior">
+      <header>
+        <h1>Ruff 1.11.9 Documentation</h1>
+        <hr>
+      </header>
+
+      <div id="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+<li><a href="#process_process">Process</a><ul>
+<li><a href="#process_process_hrtime_time">process.hrtime([time])</a></li>
+<li><a href="#process_process_nexttick_callback_args">process.nextTick(callback[, ...args])</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+
+      <div id="apicontent">
+        <h1 id="process-span-a-class-mark-href-process_process-id-process_process-a-span-">Process<span><a class="mark" href="#process_process" id="process_process">#</a></span></h1>
+<p>The <code>process</code> object is a <code>global</code> that provides information about, and control over, the current process.
+As a global, it is always available to applications without using <code>require()</code>.</p>
+<h2 id="process-hrtime-time-span-a-class-mark-href-process_process_hrtime_time-id-process_process_hrtime_time-a-span-">process.hrtime([time])<span><a class="mark" href="#process_process_hrtime_time" id="process_process_hrtime_time">#</a></span></h2>
+<p><span class="api-platform">Ruff available: v1.6.0</span>
+<span class="api-platform">Ruff Lite available: v0.7.0</span></p>
+<p>The <code>process.hrtime()</code> method returns the current high-resolution real time in a <code>[seconds, nanoseconds]</code> tuple Array.
+<code>time</code> is an optional parameter that must be the result of a previous <code>process.hrtime()</code> call
+(and therefore, a real time in a <code>[seconds, nanoseconds]</code> tuple Array containing a previous time)
+to diff with the current time.
+These times are relative to an arbitrary time in the past,
+and not related to the time of day and therefore not subject to clock drift.
+The primary use is for measuring performance between intervals.</p>
+<p>Passing in the result of a previous call to <code>process.hrtime()</code> is useful for calculating an amount of time passed between calls:</p>
+<pre><code class="lang-javascript">var time = process.hrtime();
+// [ 1800216, 25 ]
+
+setTimeout(function() {
+  var diff = process.hrtime(time);
+  // [ 1, 552 ]
+
+  console.log(&#39;Took&#39;, diff[0] * 1e9 + diff[1], &#39;nanoseconds&#39;);
+  // benchmark took 1000000527 nanoseconds
+}, 1000);
+</code></pre>
+<p>Constructing an array by some method other than calling <code>process.hrtime()</code> and passing the result to process.hrtime() will result in undefined behavior.</p>
+<h2 id="process-nexttick-callback-args-span-a-class-mark-href-process_process_nexttick_callback_args-id-process_process_nexttick_callback_args-a-span-">process.nextTick(callback[, ...args])<span><a class="mark" href="#process_process_nexttick_callback_args" id="process_process_nexttick_callback_args">#</a></span></h2>
+<p><span class="api-platform">Ruff available: v1.6.0</span>
+<span class="api-platform">Ruff Lite available: v0.6.0</span></p>
+<ul>
+<li><code>callback</code> &lt;Function&gt;</li>
+<li><code>...args</code> &lt;any&gt;</li>
+</ul>
+<p>The <code>process.nextTick()</code> method adds the <code>callback</code> to the &quot;next tick queue&quot;.
+Once the current turn of the event loop turn runs to completion,
+all callbacks currently in the next tick queue will be called.</p>
+<p>This is not a simple alias to <code>setTimeout(fn, 0)</code>, it&#39;s much more efficient.
+It runs before any additional I/O events (including timers) fire in subsequent ticks of the event loop.</p>
+<pre><code class="lang-javascript">console.log(&#39;start&#39;);
+process.nextTick(function() {
+    console.log(&#39;nextTick callback&#39;);
+});
+console.log(&#39;scheduled&#39;);
+// Output:
+// start
+// scheduled
+// nextTick callback
+</code></pre>
+
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+  </div>
+
+  <script src="assets/sh_main.js"></script>
+  <script src="assets/sh_javascript.min.js"></script>
+  <script>highlight(undefined, undefined, 'pre');</script>
+</body>
+</html>
+

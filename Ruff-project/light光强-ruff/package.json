@@ -1,0 +1,13 @@
+{
+    "name": "w-l",
+    "version": "0.1.0",
+    "description": "for light",
+    "author": "w-l",
+    "main": "src/index.js",
+    "ruff": {
+        "dependencies": {
+            "gy-30": "^3.0.6"
+        },
+        "version": 1
+    }
+}

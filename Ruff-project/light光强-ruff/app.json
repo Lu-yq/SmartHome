@@ -1,0 +1,20 @@
+{
+    "devices": [
+        {
+            "id": "gy-30",
+            "model": "GY-30",
+            "driver": "gy-30",
+            "args": {
+                "highResolution": true
+            },
+            "inputs": {
+                "i2c": {
+                    "type": "i2c",
+                    "args": {
+                        "address": 35
+                    }
+                }
+            }
+        }
+    ]
+}

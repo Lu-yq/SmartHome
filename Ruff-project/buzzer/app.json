@@ -1,0 +1,39 @@
+{
+    "devices": [
+        {
+            "id": "CK002",
+            "model": "CK002",
+            "driver": "button-gpio",
+            "inputs": {
+                "gpio": {
+                    "type": "gpio",
+                    "args": {
+                        "direction": "in",
+                        "edge": "both"
+                    },
+                    "features": {
+                        "input": [
+                            "read",
+                            "interrupt"
+                        ]
+                    }
+                }
+            },
+            "featureVersion": "0.1"
+        },
+        {
+            "id": "FC-49",
+            "model": "FC-49",
+            "driver": "buzzer-gpio",
+            "inputs": {
+                "gpio": {
+                    "type": "gpio",
+                    "args": {
+                        "direction": "out",
+                        "level": "low"
+                    }
+                }
+            }
+        }
+    ]
+}

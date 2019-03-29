@@ -1,0 +1,1 @@
+This application will turn on the red LED on the Ruff development board. For details, please refer to https://ruff.io/zh-cn/docs/getting-started.html. 

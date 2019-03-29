@@ -1,0 +1,1 @@
+This application will get the http response while pressing the external button. For details, please refer to https://ruff.io/zh-cn/docs/getting-started.html. 

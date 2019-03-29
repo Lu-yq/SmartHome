@@ -1,0 +1,108 @@
+{
+    "devices": [
+        {
+            "id": "GY-30",
+            "model": "GY-30",
+            "driver": "gy-30",
+            "args": {
+                "highResolution": true
+            },
+            "inputs": {
+                "i2c": {
+                    "type": "i2c",
+                    "args": {
+                        "address": 35
+                    }
+                }
+            }
+        },
+        {
+            "id": "DHT11",
+            "model": "DHT11",
+            "driver": "dht11",
+            "inputs": {
+                "gpio": {
+                    "type": "gpio",
+                    "reserve": "gpio-18/gpio"
+                }
+            }
+        },
+        {
+            "id": "SOUND-01",
+            "model": "SOUND-01",
+            "driver": "sound-01",
+            "args": {
+                "interval": 1000,
+                "enabled": true
+            },
+            "inputs": {
+                "gpio": {
+                    "type": "gpio",
+                    "args": {
+                        "direction": "in",
+                        "edge": "none"
+                    }
+                }
+            }
+        },
+        {
+            "id": "MH-FMG",
+            "model": "MH-FMG",
+            "driver": "buzzer-gpio",
+            "inputs": {
+                "gpio": {
+                    "type": "gpio",
+                    "args": {
+                        "direction": "out",
+                        "level": "low"
+                    }
+                }
+            }
+        },
+        {
+            "id": "KY-016",
+            "model": "KY-016",
+            "driver": "ky-016",
+            "inputs": {
+                "gnd": {
+                    "type": "ground"
+                },
+                "pwm-r": {
+                    "type": "pwm",
+                    "args": {
+                        "frequency": 800
+                    }
+                },
+                "pwm-g": {
+                    "type": "pwm",
+                    "args": {
+                        "frequency": 800
+                    }
+                },
+                "pwm-b": {
+                    "type": "pwm",
+                    "args": {
+                        "frequency": 800
+                    }
+                }
+            }
+        },
+        {
+            "id": "PN532",
+            "model": "PN532",
+            "driver": "tag-reader-pn532-uart",
+            "inputs": {
+                "uart": {
+                    "type": "uart",
+                    "args": {
+                        "baudRate": 115200,
+                        "stopBits": 1,
+                        "dataBits": 8,
+                        "parity": "none",
+                        "flowControl": "none"
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "lyq",
+    "version": "0.1.0",
+    "description": "the final",
+    "author": "lyq",
+    "main": "src/index.js",
+    "ruff": {
+        "dependencies": {
+            "sound-01": "^1.1.6",
+            "gy-30": "^3.0.6",
+            "dht11": "^0.3.6",
+            "ruff-v1-infrared-receiver": "^0.3.7",
+            "ky-016": "^2.0.5",
+            "button-gpio": "^2.0.9",
+            "buzzer-gpio": "^0.2.5",
+            "lcd1602-pcf8574a-hd44780": "^0.2.7",
+            "relay-1c": "^2.0.5",
+            "ruff-v1-infrared-sender": "^0.3.7"
+        },
+        "version": 1
+    }
+}
